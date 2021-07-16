@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Kettle使用手册</title>
+    <url>/2021/03/11/Kettle%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="1-产品手册"><a href="#1-产品手册" class="headerlink" title="1.产品手册"></a><font color="#798ba9">1.产品手册</font></h2><p>Kettle是一款国外开源的ETL工具，纯java编写，可以在Window、Linux、Unix上运行，绿色无需安装，数据抽取高效稳定。<br>Kettle中有两种脚本文件，transformation（转换）和Job（作业），transformation完成针对数据的基础转换，job则完成整个工作流的控制。</p>
+<a id="more"></a>
+
+<h3 id="Kettle的组成"><a href="#Kettle的组成" class="headerlink" title="Kettle的组成"></a><font color="#798ba9">Kettle的组成</font></h3><p>Kettle有三个主要组件：<font color="orange">Spoon、Kitchen、Pan</font></p>
+<pre><code>1.Spoon：是一个图形化的界面，方便开发转换和作业。
+
+2.Kitchen：利用Kitchen可以使用命令行调用Job
+
+3.Pan：利用Pan可以用命令行的形式调用Trans
+
+4.Carte：Carte是一个轻量级的Web容器，用于建立专用、远程的ETL Server。</code></pre>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a><font color="#798ba9">术语</font></h3><pre><code>1.Transformation 转换步骤：可以理解为将一个或者多个不同的数据源组装成一条数据流水线。然后最终输出到某一个地方，文件或者数据库等。
+
+2.Job 作业：可以调度设计好的转换，也可以执行一些文件处理（比较，删除等），还可以 ftp 上 传，下载文件，发送邮件，执行 shell 命令等
+
+3.Hop 连接转换步骤或者连接 Job（实际上就是执行顺序） 的连线：
+
+4.Transformation hop：主要表示数据的流向。从输入，过滤等转换操作，到输出。
+
+5.Job hop：可设置执行条件：无条件执行、当上一个 Job 执行结果为 true 时执行、 当上一个 Job 执行结果为 false 时执行</code></pre>
+<h2 id="2-安装部署"><a href="#2-安装部署" class="headerlink" title="2.    安装部署"></a><font color="#798ba9">2.    安装部署</font></h2><p>下载完成后，解压pdi-ce-8.3.0.0-371.zip压缩包，进入data-integration目录，然后通过启动脚本spoon.bat（windows）或者spoon.sh（Linux）启动Spoon。如果正确启动，则出现的主界面应该是下面这样的。</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%AE%89%E8%A3%85.png" alt="这是图片" title="安装"></p>
+<h2 id="3-Kettle的使用流程"><a href="#3-Kettle的使用流程" class="headerlink" title="3.Kettle的使用流程"></a><font color="#798ba9">3.Kettle的使用流程</font></h2><h3 id="1-连接资源库"><a href="#1-连接资源库" class="headerlink" title="1. 连接资源库"></a><font color="#798ba9">1. 连接资源库</font></h3><p>在实际开发过程中，不可能将自己的转换、作业和调度等配置存放在自己的电脑中。而Kettle的资源库正可以将我们的转换、作业等存储下来，构成一种协作平台。<br>Kettle支持连接的资源库类型有三种：</p>
+<pre><code>Pentaho Repository：使用的是Kettle公司自己的服务器，一般公司不会使用
+Database Repository：保存在数据库的资源库，通过用户名密码访问
+File Repository：保存的服务器硬盘的</code></pre>
+<h3 id="2-使用资源库进行协作开发"><a href="#2-使用资源库进行协作开发" class="headerlink" title="2. 使用资源库进行协作开发"></a><font color="#798ba9">2. 使用资源库进行协作开发</font></h3><pre><code>1.转换或作业的导入导出
+2.探索资源库
+3.资源连接库管理</code></pre>
+<h3 id="3-创建文本入库作业"><a href="#3-创建文本入库作业" class="headerlink" title="3. 创建文本入库作业"></a><font color="#798ba9">3. 创建文本入库作业</font></h3><pre><code>1.新增GDXX_TXT_TO_TAB_GDXX转换
+2.新建GDXX_TXT_TO_TAB作业</code></pre>
+<h3 id="4-创建数据表入库作业"><a href="#4-创建数据表入库作业" class="headerlink" title="4. 创建数据表入库作业"></a><font color="#798ba9">4. 创建数据表入库作业</font></h3><pre><code>1.新建EAST_KHXX_GDXX_TAB_TO_TAB_GDXX转换
+2.新建GDXX_TAB_TO_TAB作业</code></pre>
+<h3 id="5-创建执行过程作业"><a href="#5-创建执行过程作业" class="headerlink" title="5. 创建执行过程作业"></a><font color="#798ba9">5. 创建执行过程作业</font></h3><pre><code>1.新建PBS_TAB_TOTAL转换
+2.新建PBS_TAB_TOTAL作业</code></pre>
+<h3 id="6-ETL统一调度"><a href="#6-ETL统一调度" class="headerlink" title="6. ETL统一调度"></a><font color="#798ba9">6. ETL统一调度</font></h3><pre><code>1.新建设置时间转换
+2.新建设置时间转换
+3.执行统一调度作业</code></pre>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>Kettle</tag>
+        <tag>ETL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MyEclipse14的安装与配置</title>
+    <url>/2021/03/11/MyEclipse14%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><blockquote>
+<p>因需又一次重装了MyEclipse，故记录本文以便日后使用。</p>
+<ul>
+<li>参考了一些网上文章，资源也是网上找的，做了整合。</li>
+<li>对这些贡献者<font color="red">致谢</font></li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<hr>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a><font color="#798ba9">下载安装</font></h2><div style="cursor: url(/img/mouse.png),default;" onclick="window.open('https://aishanshan.vip/resources')">
+    <font color="orange" size="3">MyEclipse</font>
+</div>
+<br>
+
+<blockquote>
+<p>资源分享以网盘的形式下载 做了资源整合 按照标题搜索 Java 里面有<font color="red">MyEclipse模块</font></p>
+<ul>
+<li>基于WIN10 32 64</li>
+<li>MyEclipse14 Crack Configuration</li>
+</ul>
+</blockquote>
+<p>参考文献：<a href="https://blog.csdn.net/WA_MC/article/details/108054045">https://blog.csdn.net/WA_MC/article/details/108054045</a></p>
+<hr>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a><font color="#798ba9">配置</font></h2><blockquote>
+<p>安装好之后对于常规MyEclipse的配置</p>
+<ul>
+<li>编码 样式……</li>
+</ul>
+</blockquote>
+<p>参考文献：<a href="https://blog.csdn.net/qq_39135287/article/details/82080373">https://blog.csdn.net/qq_39135287/article/details/82080373</a></p>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>MyEclipse</tag>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/2021/03/11/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><blockquote>
+<p>ssh远程登录Linux的一些常用指令复习</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="（虚拟机）系统安装"><a href="#（虚拟机）系统安装" class="headerlink" title="（虚拟机）系统安装"></a><font color="#798ba9">（虚拟机）系统安装</font></h2><p>安装LINUX一般：</p>
+<pre><code>1. 重装系统
+2. 安装虚拟机镜像,如VM</code></pre>
+<p>常见情形如：应用服务器linux(redhat)通过SSH远程访问 本文着重记录常用指令</p>
+<h2 id="linux中常用命令"><a href="#linux中常用命令" class="headerlink" title="linux中常用命令"></a><font color="#798ba9">linux中常用命令</font></h2><h3 id="1-终端打开方式"><a href="#1-终端打开方式" class="headerlink" title="1.终端打开方式"></a><font color="#798ba9">1.终端打开方式</font></h3><pre><code>ctrl + alt + t</code></pre>
+<p><font color="red" size="2">win就是常用的 win + r cmd</font></p>
+<h3 id="2-终止命令"><a href="#2-终止命令" class="headerlink" title="2.终止命令"></a><font color="#798ba9">2.终止命令</font></h3><p><font color="red" size="2">注意：此处与WIN系统的CV不同，建议鼠标右键操作或者更改热键</font></p>
+<pre><code>ctrl + c</code></pre>
+<h3 id="3-查看当前目录"><a href="#3-查看当前目录" class="headerlink" title="3.查看当前目录"></a><font color="#798ba9">3.查看当前目录</font></h3><pre><code>pwd</code></pre>
+<p>linux： / 根目录开始，分隔符 /</p>
+<p>windows：盘符打头，E: , 分隔符 \</p>
+<p>根目录下的所有目录</p>
+<pre><code>root: 超级管理员目录
+etc：配置文件
+home：每个用户的主文件夹
+usr：共享目录
+opt：软件安装包目录，比如Myeclipse安装包就在这个目录下</code></pre>
+<h3 id="4-查看当前目录下的文件，文件夹"><a href="#4-查看当前目录下的文件，文件夹" class="headerlink" title="4.查看当前目录下的文件，文件夹"></a><font color="#798ba9">4.查看当前目录下的文件，文件夹</font></h3><pre><code>ls
+ls –l 查看详情
+ll ，查看详情</code></pre>
+<p>.  表示当前目录<br>..  表示上一级目录</p>
+<p><font color="red" size="2">ll较为常用</font></p>
+<h3 id="5-给文件赋权限"><a href="#5-给文件赋权限" class="headerlink" title="5.给文件赋权限"></a><font color="#798ba9">5.给文件赋权限</font></h3><p>权限：读，写，执行</p>
+<pre><code>命令： chmod  权限  文件名</code></pre>
+<p><font color="red" size="2">终极大招：chmod 777 a.txt </font></p>
+<h3 id="6-cd"><a href="#6-cd" class="headerlink" title="6.cd"></a><font color="#798ba9">6.cd</font></h3><pre><code>cd 目录名
+cd .    当前目录
+cd ../  进入上一级目录
+cd 桌面   进入桌面目录
+cd /home/soft01/桌面  进入桌面目录</code></pre>
+<p>相对路径，相对当前目录<br>绝对路径， /打头 </p>
+<h3 id="7-创建目录"><a href="#7-创建目录" class="headerlink" title="7.创建目录"></a><font color="#798ba9">7.创建目录</font></h3><pre><code>mkdir</code></pre>
+<h3 id="8-创建、编辑文件"><a href="#8-创建、编辑文件" class="headerlink" title="8.创建、编辑文件"></a><font color="#798ba9">8.创建、编辑文件</font></h3><pre><code>touch 文件名</code></pre>
+<p>如果文件不存在，则创建，如果文件存在，则修改文件的时间属性为当前时间。</p>
+<pre><code>vi 文件名</code></pre>
+<p>如果文件不存在，则创建文件并打开到只读模式<br>如果文件存在，则打开文件到只读模式</p>
+<p>要在只读模式下进入编辑模式，输入I</p>
+<p>退出编辑模式<br>按 esc 键</p>
+<pre><code>保存退出：按下esc键，退出编辑模式之后， :wq!  回车,!强制保存退出
+不保存退出：按下esc键，退出编辑模式之后，:q!  回车，强制退出</code></pre>
+<h3 id="9-文件查看"><a href="#9-文件查看" class="headerlink" title="9.文件查看"></a><font color="#798ba9">9.文件查看</font></h3><ol start="0">
+<li><p>vi 可以查看</p>
+</li>
+<li><p>cat 文件名</p>
+<p> 直接加载文件内容到终端窗口 显示行号</p>
+<p> cat另外的用法：</p>
+<pre><code> cat  aa.txt &gt; bb. txt</code></pre>
+<p>将aa.txt的输出内容覆盖到bb.txt</p>
+<pre><code> cat aa.txt &gt;&gt; bb.txt</code></pre>
+<p>将aa.txt的输出内容追加到bb.txt</p>
+</li>
+<li><p>more</p>
+<pre><code> more  -5 cc.txt</code></pre>
+<p>回车加载当前最后一行的下一行<br>加载cc.txt的前5行，按空格键，滚动加载，每次加载5行</p>
+<pre><code> more -5 –c cc.txt</code></pre>
+<p>分页展示，按空格键，每次加载5行数据</p>
+</li>
+<li><p>tail </p>
+<pre><code> tail 文件名</code></pre>
+<p>默认加载文件最后的10行数据</p>
+<pre><code> tail -5 cc.txt</code></pre>
+<p>加载指定行数的数据(Demo加载文件最后5行数据)</p>
+<pre><code> tail –f cc.txt
+ tail –F cc.txt</code></pre>
+<p>实时跟踪的命令<br>两个命令都是实时跟踪文件，如果文件有新的变动，会实时加载到窗口。</p>
+</li>
+</ol>
+<p>-F 根据文件名来跟踪<br>-f  根据文件的ID来跟踪。linux中，每个文件都有一个码，-f是根据码来跟踪的，如果使用vi编辑文件（vi编辑器是删除原来的文件，新建一个文件），那么-f是跟踪不到。</p>
+<p><font color="red" size="2">tail –f 命令，在工作中使用较多，用来查看日志</font><br>也可以用全地址来指定查看的文件</p>
+<p>例如：<br><font color="red" size="2">tail –f /home/soft01/java/tomcat/logs/localhostlog.log</font></p>
+<h3 id="10-压缩解压"><a href="#10-压缩解压" class="headerlink" title="10.压缩解压"></a><font color="#798ba9">10.压缩解压</font></h3><ol>
+<li><p>压缩</p>
+<pre><code> tar –cvf 压缩包名称  * </code></pre>
+</li>
+</ol>
+<ul>
+<li>表示当前文件夹下所有的文件，也可以用目录名<br>也可以不用*，直接跟文件名</li>
+</ul>
+<ol start="2">
+<li><p>解压</p>
+<pre><code> tar –xvf 压缩包名称</code></pre>
+<p>解压到当前目录</p>
+</li>
+</ol>
+<p><font color="red" size="2">tar命令，一般用于上线升级时的应用程序备份</font></p>
+<h3 id="11-复制，移动（剪切）"><a href="#11-复制，移动（剪切）" class="headerlink" title="11.复制，移动（剪切）"></a><font color="#798ba9">11.复制，移动（剪切）</font></h3><ol>
+<li><p>复制命令：cp</p>
+<pre><code> cp 文件名 目标目录</code></pre>
+<p>例子：cp  /home/soft01/桌面/test.tar  /home/soft01/桌面</p>
+</li>
+</ol>
+<p>cp 桌面/test.tar .<br>.   表示将test.tar 复制到当前目录</p>
+<ol start="2">
+<li><p>移动（剪切）命令： mv</p>
+<pre><code> mv 文件名 目标目录</code></pre>
+</li>
+</ol>
+<p><font color="red" size="2">如果移动，复制的是文件夹 带-r</font><br>例如： cp –r  目录名 目标目录</p>
+<h3 id="12-删除"><a href="#12-删除" class="headerlink" title="12.删除"></a><font color="#798ba9">12.删除</font></h3><ol>
+<li><p>删除文件</p>
+<pre><code> rm 文件名</code></pre>
+<p>如果文件名有多个，则空格隔开</p>
+</li>
+<li><p>删除文件夹</p>
+<pre><code> rm –rf 文件夹</code></pre>
+</li>
+</ol>
+<h3 id="13-查看、结束进程"><a href="#13-查看、结束进程" class="headerlink" title="13.查看、结束进程"></a><font color="#798ba9">13.查看、结束进程</font></h3><ol>
+<li><p>查看所有的进程详情</p>
+<pre><code> ps –ef </code></pre>
+</li>
+<li><p>进程过滤，例如查看tomcat进程</p>
+<pre><code> ps –ef | grep tomcat</code></pre>
+</li>
+<li><p>结束进程</p>
+<pre><code> kill -9 pid</code></pre>
+</li>
+</ol>
+<p>-9:强制结束<br><font color="red" size="2">pid:就是进程的一个标识 可以通过查看进程获取</font></p>
+<p>kill -9 -1:杀掉所有进程，可用于远程登录别人的系统恶作剧/狗头</p>
+<h3 id="14-sh命令运行"><a href="#14-sh命令运行" class="headerlink" title="14.sh命令运行"></a><font color="#798ba9">14.sh命令运行</font></h3><pre><code>    ./xxx.sh</code></pre>
+<p>cd打开到sh目录，需要有x权限</p>
+<pre><code>    sh xxx.sh</code></pre>
+<p>可以再使用ps -ef|grep xxx查看是否开启</p>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据仓库中的增量表，全量表</title>
+    <url>/2021/03/16/%E5%85%A8%E9%87%8F%E5%A2%9E%E9%87%8F%E8%A1%A8%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>transformation存储处理数仓增全量逻辑</p>
+<a id="more"></a>
+
+<h2 id="什么全量表？"><a href="#什么全量表？" class="headerlink" title="什么全量表？"></a><font color="#798ba9">什么全量表？</font></h2><p>全量表：每天的所有的最新状态的数据。</p>
+<blockquote>
+<p>（1）<font color=red>不管数据有没有发生变化，都要报</font>;<br>（2）每次上报的数据都是所有的数据（变化的 + 没有变化的）;</p>
+</blockquote>
+<ul>
+<li>全量表没有分区，表中的数据是前一天的所有数据.</li>
+<li>比如说今天是16号，那么全量表里面拥有的数据是15号的所有数据，每次往全量表里面写数据都会覆盖之前的数据，所以<font color=red>全量表不能记录历史的数据</font>情况，只有截止到当前<font color=red>最新的、全量的</font>数据。</li>
+</ul>
+<h2 id="什么是增量表？"><a href="#什么是增量表？" class="headerlink" title="什么是增量表？"></a><font color="#798ba9">什么是增量表？</font></h2><p>增量表：新增数据，增量数据是上次导出之后的新数据。</p>
+<blockquote>
+<p>（1）<font color=red>只报变化量，无变化不用报</font>;<br>（2）记录每次增加的量，而不是总量;</p>
+</blockquote>
+<ul>
+<li>增量表，就是<font color=red>记录每天新增数据</font>的表，</li>
+<li>比如说，从15号到16号新增了那些数据，改变了哪些数据，这些都会存储在增量表的16号分区里面。</li>
+</ul>
+<h2 id="trans存储备份处理逻辑"><a href="#trans存储备份处理逻辑" class="headerlink" title="trans存储备份处理逻辑"></a><font color="#798ba9">trans存储备份处理逻辑</font></h2><blockquote>
+<p>（1）表输入 参数输入（以天为单位的期数）;<br>（2）逻辑判断是否驳回（期数未给）;<br>（3）游标循环配置表（源表 备份表 增全状态码）;<br>（4）根据状态码分支 根据期数做 清插操作（清插逻辑判断）;</p>
+</blockquote>
+<h3 id="逻辑细节"><a href="#逻辑细节" class="headerlink" title="逻辑细节"></a><font color="#798ba9">逻辑细节</font></h3><blockquote>
+<p>（1）因为全量表不保留历史数据，所以在ODS层做备份时 清插操作之后清空源表操作;<br>（2）清空之后的逻辑处理，判断源表是否含有数据，防止二次备份空表代替备份表;</p>
+</blockquote>
+<ul>
+<li><p>查询一个表是否为空的快捷语句：（EXECUTE IMMEDIATE … INTO动态查询）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      STR_SQL :&#x3D; &#39;SELECT COUNT(1) FROM &#39; || 查询表 || &#39; WHERE ROWNUM &#x3D; 1 &#39;;</span><br><span class="line">      EXECUTE IMMEDIATE STR_SQL INTO V_COUNT;</span><br><span class="line">      IF V_COUNT &gt;&#x3D; 1 THEN</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><font color="#798ba9">总结</font></h2><p>  逻辑优化待定ing</p>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a><font color="#798ba9">参考文献</font></h2><pre><code>https://blog.csdn.net/a6822342/article/details/100050548
+https://yuhui.blog.csdn.net/article/details/89355370</code></pre>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>数仓</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>前端基础之Html</title>
+    <url>/2021/03/11/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E4%B9%8BHtml/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="html是什么"><a href="#html是什么" class="headerlink" title="html是什么"></a><font color="#798ba9">html是什么</font></h2><a id="more"></a>
+
+<ol>
+<li><p><strong>超文本标记语言</strong><br>html用文本来描述网页，但是不是普通的文本，超出文本之外<br>标记语言： 标记标签语言，是一套标签，也就是说用标签来描述网页</p>
+</li>
+<li><p><strong>html不是编程语言。是由浏览器直接解释执行</strong></p>
+</li>
+</ol>
+<p><font color="red">标签有很多。标签是成对出现，也就是说有开始，有结束，也有部分自闭合标签（没有结束标签)</font></p>
+<h2 id="编写html"><a href="#编写html" class="headerlink" title="编写html"></a><font color="#798ba9">编写html</font></h2><ol>
+<li><p><strong>文本编写</strong></p>
+<ol>
+<li><p>新建文件hello.html</p>
+</li>
+<li><p>编写<br>语法结构：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;!-- html属性，js，css等设置区域 --&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	浏览器的可见区域</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>运行<br>使用浏览器打开文件</p>
+</li>
+</ol>
+</li>
+</ol>
+<ol start="2">
+<li><p><strong>使用集成工具编写</strong></p>
+<ol>
+<li><p>新建web工程<br>new –&gt; web Project</p>
+</li>
+<li><p>在pages下新建页面<br>new –&gt; others—&gt;html</p>
+</li>
+<li><p>使用浏览器打开文件</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="常用标签"><a href="#常用标签" class="headerlink" title="常用标签"></a><font color="#798ba9">常用标签</font></h2><h3 id="1-标题"><a href="#1-标题" class="headerlink" title="1.标题"></a><font color="#798ba9">1.标题</font></h3><pre><code>&lt;h&gt;xxx&lt;/h&gt;</code></pre>
+<p>Demo：</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E6%A0%87%E9%A2%98.png" alt="这是图片" title="标题">  </p>
+<h3 id="2-居中"><a href="#2-居中" class="headerlink" title="2. 居中"></a><font color="#798ba9">2. 居中</font></h3><pre><code>&lt;center&gt;xxx&lt;/center&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%B1%85%E4%B8%AD.png" alt="这是图片" title="居中">  </p>
+<h3 id="3-段落"><a href="#3-段落" class="headerlink" title="3. 段落"></a><font color="#798ba9">3. 段落</font></h3><pre><code>&lt;p&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E6%AE%B5%E8%90%BD.png" alt="这是图片" title="段落">  </p>
+<h3 id="4-换行"><a href="#4-换行" class="headerlink" title="4.换行"></a><font color="#798ba9">4.换行</font></h3><pre><code>&lt;br&gt;
+自闭&lt;/br&gt;可以不写</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E6%8D%A2%E8%A1%8C.png" alt="这是图片" title="换行">  </p>
+<h3 id="5-转义字符"><a href="#5-转义字符" class="headerlink" title="5. 转义字符"></a><font color="#798ba9">5. 转义字符</font></h3><pre><code>&amp;xxx</code></pre>
+<p>如</p>
+<ol>
+<li>&amp;nbsp : 空格</li>
+<li>&amp;lt &amp;gt : &lt;&gt;</li>
+<li>&amp;copy ： ©</li>
+</ol>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6.png" alt="这是图片" title="转义字符">  </p>
+<h3 id="6-字体"><a href="#6-字体" class="headerlink" title="6. 字体"></a><font color="#798ba9">6. 字体</font></h3><pre><code>&lt;font&gt;xxx&lt;/font&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%AD%97%E4%BD%93.png" alt="这是图片" title="字体"> </p>
+<h3 id="7-加粗，倾斜"><a href="#7-加粗，倾斜" class="headerlink" title="7. 加粗，倾斜"></a><font color="#798ba9">7. 加粗，倾斜</font></h3><pre><code>&lt;b&gt;xxx&lt;b&gt; -- 加粗
+&lt;i&gt;xxx&lt;i&gt; -- 倾斜</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%8A%A0%E7%B2%97%E5%80%BE%E6%96%9C.png" alt="这是图片" title="加粗倾斜"> </p>
+<h3 id="8-图片"><a href="#8-图片" class="headerlink" title="8. 图片"></a><font color="#798ba9">8. 图片</font></h3><pre><code>&lt;img&gt;
+自闭，不用加&lt;/img&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%9B%BE%E7%89%87.png" alt="这是图片" title="图片"> </p>
+<h3 id="9-序列（有序，无序）"><a href="#9-序列（有序，无序）" class="headerlink" title="9. 序列（有序，无序）"></a><font color="#798ba9">9. 序列（有序，无序）</font></h3><pre><code>&lt;ol&gt;xxx&lt;/ol&gt; -- 有序
+&lt;ul&gt;xxx&lt;/ul&gt; -- 无序</code></pre>
+<p>可以修改样式，如</p>
+<pre><code>&lt;ol type=&quot;A&quot;&gt;&lt;/ol&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%BA%8F%E5%88%97.png" alt="这是图片" title="序列"> </p>
+<h3 id="10-段落缩进"><a href="#10-段落缩进" class="headerlink" title="10. 段落缩进"></a><font color="#798ba9">10. 段落缩进</font></h3><pre><code>&lt;blockquote&gt;xxx&lt;/blockquote&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E6%AE%B5%E8%90%BD%E7%BC%A9%E8%BF%9B.png" alt="这是图片" title="段落缩进"> </p>
+<h3 id="11-对齐方式"><a href="#11-对齐方式" class="headerlink" title="11. 对齐方式"></a><font color="#798ba9">11. 对齐方式</font></h3><pre><code>使用align属性
+&lt;h1 align=&quot;xxx&quot;&gt;xxx&lt;/h1&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F.png" alt="这是图片" title="对齐方式"> </p>
+<h3 id="12-设置浏览器可见区域的背景颜色"><a href="#12-设置浏览器可见区域的背景颜色" class="headerlink" title="12. 设置浏览器可见区域的背景颜色"></a><font color="#798ba9">12. 设置浏览器可见区域的背景颜色</font></h3><pre><code>浏览器可见区域---》body标签
+使用body标签中的bgcolor属性
+&lt;body bgcolor=&quot;xxx&quot;&gt;xxx&lt;/body&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/body%E8%83%8C%E6%99%AF%E8%89%B2.png" alt="这是图片" title="body背景色"> </p>
+<h3 id="13-局部凸显"><a href="#13-局部凸显" class="headerlink" title="13. 局部凸显"></a><font color="#798ba9">13. 局部凸显</font></h3><pre><code>&lt;font color=&quot;xxx&quot;&gt;xxx&lt;/font&gt;</code></pre>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%B1%80%E9%83%A8%E5%87%B8%E6%98%BE.png" alt="这是图片" title="局部凸显"> </p>
+<h3 id="14-表格"><a href="#14-表格" class="headerlink" title="14. 表格"></a><font color="#798ba9">14. 表格</font></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;tr&gt;</span><br><span class="line">&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br></pre></td></tr></table></figure>
+<p>tr : 行<br>td : 列</p>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E8%A1%A8%E6%A0%BC.png" alt="这是图片" title="表格"> </p>
+<p>更多如单元格合并，行列合并，宽对齐方式、背景色，边框等有兴趣自玩，本文记录基础 </p>
+<h3 id="15-超链接"><a href="#15-超链接" class="headerlink" title="15. 超链接"></a><font color="#798ba9">15. 超链接</font></h3><pre><code>&lt;a&gt;,href属性和target属性
+&lt;a href=&quot;&quot; target=&quot;&quot;&gt;xxx可用图片&lt;/a&gt;</code></pre>
+<p>target : 指定页面跳转方式；如_blank新窗口打开<br>href : 跳转页面</p>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E8%B6%85%E9%93%BE%E6%8E%A5.png" alt="这是图片" title="超链接"> </p>
+<h3 id="16-锚链接"><a href="#16-锚链接" class="headerlink" title="16.锚链接"></a><font color="#798ba9">16.锚链接</font></h3><p>在当前页面做快速定位</p>
+<ol>
+<li><p>定义锚点</p>
+<pre><code> &lt;a name=&quot;锚点&quot;&gt;xxx&lt;/a&gt;</code></pre>
+</li>
+<li><p>定义锚链接，href指向锚点</p>
+<pre><code> &lt;a href=&quot;#锚点&quot;&gt;xxx&lt;/a&gt;</code></pre>
+</li>
+</ol>
+<p>target : 指定页面跳转方式；如_blank新窗口打开<br>href : 跳转页面</p>
+<p>Demo:</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E9%94%9A%E9%93%BE%E6%8E%A5.png" alt="这是图片" title="锚链接"> </p>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>前端</tag>
+        <tag>Html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何通过日结算余额计算日实时余额</title>
+    <url>/2021/06/29/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E6%97%A5%E4%BD%99%E9%A2%9D%E8%AE%A1%E7%AE%97%E5%AE%9E%E6%97%B6%E4%BD%99%E9%A2%9D/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>在计算账户的明细余额时，核心只存了账户的日结算余额，如何通过交易流水来计算日实时余额呢？</p>
+<a id="more"></a>
+
+<h2 id="1、条件整理"><a href="#1、条件整理" class="headerlink" title="1、条件整理"></a><font color="#798ba9">1、条件整理</font></h2><p>  已知条件：即涉及到哪些表的哪些字段<br>  账户表（账户号），日余额表（账户号，日余额），流水表（流水号，交易时间，交易金额，借贷方向，账户号）</p>
+<h2 id="2、思路想法"><a href="#2、思路想法" class="headerlink" title="2、思路想法"></a><font color="#798ba9">2、思路想法</font></h2><p>　先试着查询一下 某一个账户 在某一天的 交易明细<br>例如：在628这一天的某一个虚拟账户的流水如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select 账户号,流水号,交易时间,交易金额,借贷方向 from 流水表 where 账户号 in (&#39;xxxxxxxx&#39;)</span><br><span class="line">and key_dt &#x3D; date&#39;2021-06-28&#39;</span><br><span class="line">order by 流水号</span><br><span class="line"></span><br><span class="line">账户号	流水号1	2021&#x2F;06&#x2F;28	3000.00	借</span><br><span class="line">账户号	流水号2	2021&#x2F;06&#x2F;28	4000.00	贷</span><br></pre></td></tr></table></figure>
+<p>这个就是一个模拟账号在这一天的交易流水，接下来就是模拟其实时余额流水。<br>就拿这个虚拟账户举例，假设其27日的余额为1000，28日的日余额为0。</p>
+<blockquote>
+<p>理想创建流水为：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">账户号 流水号 交易时间 实时余额</span><br><span class="line"></span><br><span class="line">账户号 流水号1 2021&#x2F;06&#x2F;28 4000.00	</span><br><span class="line">账户号 流水号2 2021&#x2F;06&#x2F;28 0.00</span><br></pre></td></tr></table></figure>
+<p>第一个实时余额是 1000 + (3000) = 4000<br>第二个实时余额是 1000 + (3000 - 4000) = 0</p>
+<p>那么实时余额的公式建模为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">上日余额 + 流水号1时的交易额</span><br><span class="line">上日余额 + 流水号1时的交易额 + 流水号2时的交易额</span><br><span class="line">上日余额 + 流水号1时的交易额 + 流水号2时的交易额 + 流水号3时的交易额</span><br><span class="line"></span><br><span class="line">上日余额 + 流水号1时的交易额 + 流水号2时的交易额 + 流水号3时的交易额 + ... + 流水号n时的交易额</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>流水号n时的交易额则根据其借贷方向做一个正负判断</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DECODE(借贷方向,&#39;借&#39;,交易金额,&#39;贷&#39;,交易金额*(-1))</span><br></pre></td></tr></table></figure>
+<h2 id="3、明细实现"><a href="#3、明细实现" class="headerlink" title="3、明细实现"></a><font color="#798ba9">3、明细实现</font></h2><p>　 思路明确之后就是具体实现。</p>
+<blockquote>
+<p>通过1：N = N实现1个账户的N笔流水<br>通过上述建交易额分组排序，实现N笔流水的实时余额加减</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">WITH 实时余额加减临时表 AS </span><br><span class="line">     (SELECT 流水号,账户号,交易时间,</span><br><span class="line">      SUM(DECODE(借贷方向,&#39;借&#39;,交易金额,&#39;贷&#39;,交易金额*(-1))) OVER (PARTITION BY 账户号 ORDER BY 流水号) 实时交易额</span><br><span class="line">      FROM 流水表</span><br><span class="line">      WHERE 交易时间 &#x3D; TO_DATE(&#39;20210628&#39;,&#39;YYYYMMDD&#39;))</span><br></pre></td></tr></table></figure>
+<p>接下来就是<br>获取其上日余额,关联此实时余额加减临时表后进行实时余额的计算</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">上日余额 + 实时余额加减临时表.实时交易额</span><br></pre></td></tr></table></figure>
+<h2 id="4-调整完善"><a href="#4-调整完善" class="headerlink" title="4.调整完善"></a><font color="#798ba9">4.调整完善</font></h2><p>  还有其他一些实际遇到的问题，例如临时表的排序依靠流水号需要流水号为从先到后，不然会出现先贷后借，实时余额为负的情况；<br>  关联时间的字段选择，交易时间和过账时间哪个为实际交易时间的问题等等都需要讨论确定。
+　 </p>
+]]></content>
+      <tags>
+        <tag>金融</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>同业拆借详解</title>
+    <url>/2021/03/17/%E5%90%8C%E4%B8%9A%E6%8B%86%E5%80%9F/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>对同业拆借业务的详细理解</p>
+<a id="more"></a>
+
+<h2 id="一、什么是同业拆借"><a href="#一、什么是同业拆借" class="headerlink" title="一、什么是同业拆借"></a><font color="#798ba9">一、什么是同业拆借</font></h2><blockquote>
+<p>同业拆借（放）（inter-banklending、borrowing）指的是银行之间为了解决短期内出现的资金余缺而进行的相互调剂，是具有法人资格的金融机构及经法人授权的非法人金融机构分支机构之间进行<font color=red>短期资金融通的行为，目的在于调剂头寸和临时性资金余缺。</font></p>
+</blockquote>
+<p>发生在一个工作日结束后银行对账目进行结算时发现资金出现多于或短缺的情况下，为了使第二天的工作照常进行或对富余款项进行利用。</p>
+<p>同业拆借（放）的主要交易对象为<font color=red>超额准备金</font>.</p>
+<ul>
+<li>拆入行向拆出行开出本票；</li>
+<li>拆出行则对拆入行开出中央银行存款支票即超额准备金。</li>
+<li>对资金贷出者而言是拆放，对拆入者而言则是拆借。同业拆借发生量大，交易频繁，对市场反应敏感，能作为一国银行利率的中间指标。</li>
+</ul>
+<h2 id="二、同业拆借的特点是什么"><a href="#二、同业拆借的特点是什么" class="headerlink" title="二、同业拆借的特点是什么"></a><font color="#798ba9">二、同业拆借的特点是什么</font></h2><p>同业拆借，同业拆借市场具有以下特点：</p>
+<ol start="0">
+<li>融通资金的期限一般比较短；</li>
+<li>参与拆借的机构基本上是在中央银行开立存款帐户，交易资金主要是该帐户上的多余资金；</li>
+<li>同业拆借资金主要用于短期、临时性需要；</li>
+<li>同业拆借基本上是<font color=red>信用拆借</font>。同业拆借可以使商业银行在不用保持大量超额准备金的前提下，就能满足存款支付的需要。1996年1月3日，我国建立起了全国统一的同业拆借市场并开始试运行。</li>
+</ol>
+<h2 id="三、同业拆借有哪些原则"><a href="#三、同业拆借有哪些原则" class="headerlink" title="三、同业拆借有哪些原则"></a><font color="#798ba9">三、同业拆借有哪些原则</font></h2><p>商业银行进行同业拆借活动时，必须遵循以下原则：</p>
+<h3 id="自主性原则"><a href="#自主性原则" class="headerlink" title="自主性原则"></a><font color="#798ba9">自主性原则</font></h3><blockquote>
+<p>同业拆借是一种信用行为，在进行拆借资金交易时，必须承认和尊重市场主体（交易双方）的权利和义务，严格遵循自愿协商、平等互利、自主成交的原则，维护市场经营者的合法权益，形成平等竞争的有序环境，保证资金的合理流动。</p>
+</blockquote>
+<h3 id="偿还性原则"><a href="#偿还性原则" class="headerlink" title="偿还性原则"></a><font color="#798ba9">偿还性原则</font></h3><ul>
+<li>对拆出方来说，由于拆出的是本行暂时闲置不用的资金，有一定期限限制，因此必须按期收回。</li>
+<li>对拆入方来说，拆入资金只是拥有一定期限内的资金使用权，并不拥有长期使用的权利，也不改变资金的所有权，因而必须到期如数偿还。</li>
+</ul>
+<h3 id="短期性原则"><a href="#短期性原则" class="headerlink" title="短期性原则"></a><font color="#798ba9">短期性原则</font></h3><blockquote>
+<p>同业拆借的典型特征之一是期限短，属一种短期融资。</p>
+</blockquote>
+<ul>
+<li>从拆出方看，拆出的资金是银行的暂时闲置的资金，从数量和期限上都具有不确定性，因而其资金运用必须是短期的。</li>
+<li>就拆入方而言，向同业拆入资金主要是解决临时性储备不足的资金需要，如因清算联行汇差而出现的临时性头寸不足和头寸调度方面的突发性资金需求等。因此拆入方也应坚持拆入资金的短期性原则，一旦贷款收回或存款增加，就应立即归还这种借款。</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a><font color="#798ba9">参考文献</font></h2><pre><code>https://www.fabao365.com/zhaiwu/92476/</code></pre>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>同业拆借</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>房贷和抵押贷款有什么区别？</title>
+    <url>/2021/03/11/%E6%88%BF%E8%B4%B7%E5%92%8C%E6%8A%B5%E6%8A%BC%E8%B4%B7%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<p>此文为作者转载收藏<br>原文链接：<a href="https://www.rong360.com/gl/2017/09/11/142487.html">https://www.rong360.com/gl/2017/09/11/142487.html</a></p>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>住房按揭贷款和房屋抵押贷款常常会使人们在办理时产生疑惑，同样是与“房”和“贷款”相关，那么，按揭和抵押到底有什么不同呢？</p>
+<a id="more"></a>
+
+<h2 id="1、当事人不同"><a href="#1、当事人不同" class="headerlink" title="1、当事人不同"></a><font color="#798ba9">1、当事人不同</font></h2><p>　　按揭贷款是发生在购房者、开发商、银行三方之间，围绕房屋产权、借款、还款进行的钱物交易。在交易的过程中，各方担任的职责也是不同的，开发商在这其中担任的是中间人或者担保人的角色，购房者是按揭人，银行是按揭受益人。<br>　　抵押一般只牵扯两个当事人，抵押人和抵押权人，不需要担保人。现实中的房产抵押也一般是发生在贷款人拥有房屋的所有产权情况下，将房屋抵押给银行，进行的是一项单纯的以物换钱行为，要比按揭简单许多。</p>
+<h2 id="2、所需资料和流程"><a href="#2、所需资料和流程" class="headerlink" title="2、所需资料和流程"></a><font color="#798ba9">2、所需资料和流程</font></h2><p>　　办理按揭是在贷款人取得不动产证的前提下进行的，贷款人先凭借首付款证明和购房合同等材料与银行签订借贷合同，在发放贷款付清房款之后，房屋产权由开发单位转移到贷款人，贷款人再将所有权暂时移交给银行。所需要的资料是房屋的所有权证明，购房合同等资料。<br>　　办理抵押贷款应当凭借房屋的土地使用权证、房屋所有权证、贷款用途等材料与银行签订借贷合同。</p>
+<h2 id="3、所有权是否转移"><a href="#3、所有权是否转移" class="headerlink" title="3、所有权是否转移"></a><font color="#798ba9">3、所有权是否转移</font></h2><p>　　按揭是指购房者在支付部分房款的前提下，通过与银行签订贷款协议，将房屋的产权暂时移交银行作为贷款的担保，从而获得银行放款，通过贷款人每月偿还一定的月供，当最终还完全部贷款和利息之后，再将房屋产权从银行拿回，从而拥有独立的房屋产权。<br>　　抵押是指购房人将自己名下的房屋作为抵押物，抵押给银行，从而获得银行的贷款，但房屋的产权仍在贷款人手中，银行只是拥有了房屋的抵押权，无权随意处置房屋，也从来没有拥有过房屋的产权。</p>
+<h2 id="4、贷款目的不同"><a href="#4、贷款目的不同" class="headerlink" title="4、贷款目的不同"></a><font color="#798ba9">4、贷款目的不同</font></h2><p>　　从某种程度上说，按揭和抵押担保的基本目的都在于保证借贷关系的履行，但具体来说还是有一定区别的。<br>　　按揭的目的在于通过房屋产权的暂时转移，最大可能的减少房屋交易和借贷中的风险，以最大限度的取得贷款，彻底完成房屋交易，取得房屋所有权。抵押的目的在于通过抵押物的抵押获得资金，去完成其他的目的。</p>
+<h2 id="5、贷款利率不同"><a href="#5、贷款利率不同" class="headerlink" title="5、贷款利率不同"></a><font color="#798ba9">5、贷款利率不同</font></h2><p>　　一般而言，利率执行的都是中国人民银行规定的基准利率。但是按揭贷款执行的利率一般都会享受一定的折扣，偶尔会随着政策的变化，略有上浮，但幅度不会特别大。抵押贷款不同，房产抵押贷款的贷款利率一般都会在原利率的基础上上浮，且上浮的幅度较大。总体计算下来，抵押的成本要比按揭高，简单来说就是在相同的贷款金额下，抵押贷款要比按揭贷款付出更多的利息。</p>
+<h2 id="6、贷款年限不同"><a href="#6、贷款年限不同" class="headerlink" title="6、贷款年限不同"></a><font color="#798ba9">6、贷款年限不同</font></h2><p>　　按揭，简单来说就是大家日常购房时所说的贷款买房，根据银行对贷款人的还贷能力的评估，一般最长贷款年限为30年，如果贷款人年纪太长，或者是经济能力不够，还会出现银行不放贷的可能。抵押贷款的贷款期限最长可达10年，而且只要有抵押物，抵押物的存在合理合法，一般很少会有银行单位不放款。</p>
+]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>贷款</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何通过贷款计划获取总期数和当期期数</title>
+    <url>/2021/06/30/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E8%B4%B7%E6%AC%BE%E8%AE%A1%E5%88%92%E8%8E%B7%E5%8F%96%E6%80%BB%E6%9C%9F%E6%95%B0%E5%92%8C%E5%BD%93%E6%9C%9F%E6%9C%9F%E6%95%B0/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>在计算贷款的贷款期数和当前期数时，核心只存了账户的贷款计划，如何通过这个贷款计划获取总期数和当期期数呢？</p>
+<a id="more"></a>
+
+<h2 id="1、条件整理"><a href="#1、条件整理" class="headerlink" title="1、条件整理"></a><font color="#798ba9">1、条件整理</font></h2><p>  已知条件：即涉及到哪些表的哪些字段<br>  账户表（账户号），贷款计划表（账户号,贷款当期开始日，贷款当期结束日，还款金额)</p>
+<h2 id="2、思路想法"><a href="#2、思路想法" class="headerlink" title="2、思路想法"></a><font color="#798ba9">2、思路想法</font></h2><p>  可以先用查询一下某一个账户的还款计划，例如以下虚拟账户的账户的一个贷款计划为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">账户号1 20210101 20210301 10000</span><br><span class="line">账户号1 20210301 20210601 20000</span><br><span class="line">账户号1 20210601 20210901 30000</span><br><span class="line">账户号1 20210901 20211201 40000</span><br></pre></td></tr></table></figure>
+<p>由此可见 此账户做了4期贷款,每期还款计划金额<br>那么获取其总期数就很明显了，根据账户分组，获取其COUNT()即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">WITH 贷款总期数 AS (</span><br><span class="line">    SELECT COUNT(*) X,</span><br><span class="line">    A.账户号 </span><br><span class="line">    FROM 账户表 A</span><br><span class="line">    LEFT JOIN 贷款计划表 B</span><br><span class="line">    ON A.账户号 &#x3D; B.账户号</span><br><span class="line">    GROUP BY A.账户号)</span><br></pre></td></tr></table></figure>
+<p>接下来就是当期期数的判断，在获取了总期数明细后，其实只需要判断当期时间中有多少个当期开始日即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">WITH 贷款当期期数 AS (</span><br><span class="line">    SELECT COUNT(*) X,</span><br><span class="line">    A.账户号 </span><br><span class="line">    FROM 账户表 A</span><br><span class="line">    LEFT JOIN 贷款计划表 B</span><br><span class="line">    ON A.账户号 &#x3D; B.账户号</span><br><span class="line">    AND B.贷款当期开始日 &lt;&#x3D; TO_DATE(当期时间,&#39;YYYYMMDD&#39;)</span><br><span class="line">    GROUP BY A.账户号)</span><br></pre></td></tr></table></figure>
+<h2 id="3-调整完善"><a href="#3-调整完善" class="headerlink" title="3.调整完善"></a><font color="#798ba9">3.调整完善</font></h2><p>还有一些具体遇到的问题例如：</p>
+<blockquote>
+<p>还款计划中有的会存发放贷款记录，需要根据其字段进行剔除<br>关于提前还款等逻辑还需要待讨论，此表为还款计划表，如提前还款应该根据账户状态进行判断<br>关于当前时间，贷款还未开始的当前期数可以NVL(贷款当期期数.X,0)</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>金融</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>移动端focus blur事件失效处理</title>
+    <url>/2021/03/11/%E7%A7%BB%E5%8A%A8%E7%AB%AFfocus_blur%E4%BA%8B%E4%BB%B6%E5%A4%B1%E6%95%88/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><blockquote>
+<p>按钮 触发事件（focus blur）控制 div块的展示 隐藏,pc端触发正常，但是移动端如ios出现点击无效情况，查询后得知，safari键盘不会自动弹出。</p>
+<ul>
+<li>网上有其他的更好的解决方法，但是笔者比较懒</li>
+<li>既然找不到键盘，那就换一种方式，<font color="red">加绑 单击 双击 </font>事件</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<hr>
+<h2 id="公共"><a href="#公共" class="headerlink" title="公共"></a><font color="#798ba9">公共</font></h2><p><font color="red">Js部分</font></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function showImg()&#123; </span><br><span class="line">document.getElementById(&quot;wxImg&quot;).style.display&#x3D;&#39;block&#39;; </span><br><span class="line">&#125; </span><br><span class="line">function hideImg()&#123; </span><br><span class="line">document.getElementById(&quot;wxImg&quot;).style.display&#x3D;&#39;none&#39;; </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>此部分为块的展示隐藏</p>
+</blockquote>
+<hr>
+<h2 id="原"><a href="#原" class="headerlink" title="原"></a><font color="#798ba9">原</font></h2><p><font color="red">html部分</font></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;button class&#x3D;&quot;xxx样式&quot; onfocus&#x3D;&quot;showImg()&quot; onblur&#x3D;&quot;hideImg()&quot;&gt;点击展开&lt;&#x2F;button&gt;</span><br><span class="line">	&lt;div id&#x3D;&quot;wxImg&quot; style&#x3D;&quot;display:none;position:relative;&quot;&gt;</span><br><span class="line">		&lt;img src&#x3D;&quot;xxx图片地址&quot;&gt;&lt;&#x2F;img&gt;</span><br><span class="line">	&lt;&#x2F;div&gt; </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>此部分为 按钮 + 被控制块 按钮绑定<br><code>onfocus=&quot;showImg()&quot; onblur=&quot;hideImg()&quot;</code> 焦点汇聚 散离事件</p>
+</blockquote>
+<hr>
+<h2 id="现"><a href="#现" class="headerlink" title="现"></a><font color="#798ba9">现</font></h2><p><font color="red">html部分</font></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;button class&#x3D;&quot;xxx样式&quot; onclick&#x3D;&quot;showImg()&quot; ondblclick&#x3D;&quot;hideImg()&quot; onfocus&#x3D;&quot;showImg()&quot; onblur&#x3D;&quot;hideImg()&quot;&gt;点击展开&lt;&#x2F;button&gt;</span><br><span class="line">	&lt;div id&#x3D;&quot;wxImg&quot; style&#x3D;&quot;display:none;position:relative;&quot;&gt;</span><br><span class="line">		&lt;img src&#x3D;&quot;xxx图片地址&quot;&gt;&lt;&#x2F;img&gt;</span><br><span class="line">	&lt;&#x2F;div&gt; </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>加绑了<br><code>onclick=&quot;showImg()&quot; ondblclick=&quot;hideImg()&quot;</code> 单击 双击 事件</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>前端</tag>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>统计报表业务分析</title>
+    <url>/2021/03/11/%E7%BB%9F%E8%AE%A1%E6%8A%A5%E8%A1%A8%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="一、为什么要做业务分析"><a href="#一、为什么要做业务分析" class="headerlink" title="一、为什么要做业务分析"></a><font color="#798ba9">一、为什么要做业务分析</font></h2><ol>
+<li><p>业务分析，是项目实施过程中<font color="red">必要的环节</font>；</p>
+</li>
+<li><p>通过业务分析，对金融机构所开展的金融业务进行摸底、了解；</p>
+</li>
+</ol>
+<a id="more"></a>
+
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E7%BB%9F%E8%AE%A1%E6%8A%A5%E8%A1%A8%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90.png" alt="这是图片" title="统计报表需求分析">  </p>
+<p><font color="#9EDFA7" >其他业务中 理财信用卡用到的会比较多一点；</font></p>
+<p><font color="#9EDFA7" >每一个业务点都会留下一些操作数据；</font></p>
+<ol start="3">
+<li><p>为<font color="red">报表分析、规则制定提供基础</font>；</p>
+</li>
+<li><p>常见的金融机构业务、及数据流</p>
+</li>
+</ol>
+<h2 id="二、-统计类报表业务分析依托"><a href="#二、-统计类报表业务分析依托" class="headerlink" title="二、    统计类报表业务分析依托"></a><font color="#798ba9">二、    统计类报表业务分析依托</font></h2><ol>
+<li><p>监管报表填报说明</p>
+</li>
+<li><p>业务系统数据字典</p>
+</li>
+<li><p>监管模型数据字典</p>
+</li>
+</ol>
+<h2 id="三、-统计类报表分析方法、路径"><a href="#三、-统计类报表分析方法、路径" class="headerlink" title="三、    统计类报表分析方法、路径"></a><font color="#798ba9">三、    统计类报表分析方法、路径</font></h2><ol>
+<li><p>报表统计涵盖的业务范围分析</p>
+<pre><code> 贷款、买入返售</code></pre>
+</li>
+<li><p>报表统计所使用的数据维度</p>
+<pre><code> 金融、应收、房地产、其他</code></pre>
+</li>
+<li><p>报表统计指标</p>
+<pre><code> 押品价值（起始估值、最新估值）</code></pre>
+</li>
+</ol>
+<h2 id="四、-报表规则编写"><a href="#四、-报表规则编写" class="headerlink" title="四、    报表规则编写"></a><font color="#798ba9">四、    报表规则编写</font></h2><ol>
+<li><p>报表规则文档模板</p>
+</li>
+<li><p>书写规范</p>
+</li>
+</ol>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>统计报表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>财务公司EAST制服解读</title>
+    <url>/2021/03/17/%E8%B4%A2%E5%8A%A1%E5%85%AC%E5%8F%B8EAST%E5%88%B6%E5%BA%A6%E8%A7%A3%E8%AF%BB/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>财务公司EAST制度解读笔记</p>
+<a id="more"></a>
+
+<h2 id="EAST制度发展历程–监管价值"><a href="#EAST制度发展历程–监管价值" class="headerlink" title="EAST制度发展历程–监管价值"></a><font color="#798ba9">EAST制度发展历程–监管价值</font></h2><p>经银监会批准，中国财务公司可从事下列部分或全部业务：（2019：法人262家）</p>
+<blockquote>
+<ol start="0">
+<li>吸收成员单位3个月以上定期存款。</li>
+<li>发行财务公司债券。</li>
+<li>同业拆借。</li>
+<li>对成员单位办理贷款及融资租赁。</li>
+<li>办理集团成员单位产品的消费信贷，买方信贷及融资租赁。</li>
+<li>办理成员单位商业汇票的承兑及贴现。</li>
+<li>办理成员单位的委托贷款及委托投资。</li>
+<li>有价证券、金融机构股权及成员单位股权投资。</li>
+<li>承销成员单位的企业债券。</li>
+<li>对成员单位办理财务顾问、信用鉴证及其他咨询代理业务。</li>
+<li>对成员单位提供担保。</li>
+<li>境外外汇借款。</li>
+<li>经银监会批准的其他业务。</li>
+</ol>
+</blockquote>
+<p>EAST 48张表。</p>
+<p>范围限制：集团成员；<br>财务公司是存款性的金融机构。</p>
+<h2 id="EAST制度解读-公共信息"><a href="#EAST制度解读-公共信息" class="headerlink" title="EAST制度解读-公共信息"></a><font color="#798ba9">EAST制度解读-公共信息</font></h2><p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E5%85%AC%E5%85%B1%E4%BF%A1%E6%81%AF.png" alt="这是图片" title="公共信息"></p>
+<h3 id="机构信息"><a href="#机构信息" class="headerlink" title="机构信息"></a><font color="#798ba9">机构信息</font></h3><blockquote>
+<p>报送范围：本表报送财务公司及其境内分支机构信息。<br>报送方式：状态表，全量采集。<br>目的：了解金融机构中业务机构的设置，是所有业务的基础，<font color="red">所有业务表的机构均关联此表</font>，可以做机构概览等模型。<br>数据来源：一般来源于金融机构的核心系统等。没有很多分支的可能就是手工填。</p>
+</blockquote>
+<ol start="0">
+<li>全球法人识别码，人行编发的 有就填。</li>
+<li>机构码就是18位的征信号码，没有就填组织机构代码。</li>
+<li>主要负责人不一定是法人代表可能是总经理。</li>
+</ol>
+<h3 id="机构关系"><a href="#机构关系" class="headerlink" title="机构关系"></a><font color="#798ba9">机构关系</font></h3><blockquote>
+<p>报送范围：本表报送范围应包括所有进行账务处理的机构，有分支机构的财务公司应将分支机构纳入。会计全科目表中的机构在本表中都需要报送。<br>报送方式：状态表，全量采集。<br>目的：了解金融机构中业务机构的账务层级设置，是做所有业务的基础，<font color="red">总账的所有业务的机构均关联此表</font>。<br>数据来源：一般来源于金融机构的、财管系统或核心系统等。</p>
+</blockquote>
+<ol start="0">
+<li>除了自己的机构码以外，还要报上级的机构代码，如果本身就是一级，没有上级机构 机构代码名称填0。</li>
+<li>机构信息和机构关系的异同<br><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E6%9C%BA%E6%9E%84%E4%BF%A1%E6%81%AF%E5%92%8C%E6%9C%BA%E6%9E%84%E5%85%B3%E7%B3%BB%E7%9A%84%E5%BC%82%E5%90%8C.png" alt="这是图片" title="机构信息和机构关系的异同"><blockquote>
+<p>关系：<font color="red">机构信息表</font>不仅包含<font color="red">机构关系表</font>的所有账务机构（除地区汇总），还包含EAST所有表涉及的机构（<font color="red">本行所有人员涉及到的机构</font>）</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>EAST</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贸易融资是贷款吗？</title>
+    <url>/2021/03/11/%E8%B4%B8%E6%98%93%E8%9E%8D%E8%B5%84%E6%98%AF%E8%B4%B7%E6%AC%BE%E5%90%97/</url>
+    <content><![CDATA[<p>此文为作者转载收藏<br>原文链接：<a href="https://www.findlaw.cn/148400/article_65236.html">https://www.findlaw.cn/148400/article_65236.html</a></p>
+<hr>
+<p>　　在我国融资的方式也是很多的，发行股票、汇票贴现、贷款等等都是属于融资方式的一种。那么进行贸易融资是不是就是贷款？</p>
+<a id="more"></a>
+
+<h2 id="贸易融资是贷款吗"><a href="#贸易融资是贷款吗" class="headerlink" title="贸易融资是贷款吗"></a><font color="#798ba9">贸易融资是贷款吗</font></h2><p>　　贸易融资是贷款的另一种说法，是在有贸易关系的基础上给予的一种贷款。但是贸易融资和贷款又是存在一定的差异和区别。</p>
+<ol>
+<li>贸易融资的第一还款来源是本笔贸易的直接收入(如应收账款)或者间接收入(如预付款获得货物后的销售收入)，用途也是与本笔贸易直接相关的，如备货，组织生产等。因此贸易融资对单笔交易安全性的评价比对借款人的综合评价更加重要。这也是有的时候我们把贸易融资称为“单笔”的原因。</li>
+</ol>
+<p>　　贸易融资依附于贸易往来的一种融资方式，虽然融资主体也是企业，但是这个融资的背景一定是融资主体有一宗或者多宗贸易。</p>
+<ol start="2">
+<li><p>流动资金贷款是为满足生产经营者在生产经营过程中短期资金需求，保证生产经营活动正常进行而发放的贷款。其实流动资金贷款主要就是为了维持企业运作支付的资金，包括购买原材料，支付薪酬、缴纳税收等，与此相对的概念是固定资产贷款，该贷款主要用于基建、购买设备等固定资产。包含人民币，外币贷款。当前银行对流动资金贷款的用途有监控，需要采取受托支付，一般银行实务中，流贷主要用于购买原材料。</p>
+</li>
+<li><p>主要区别，银行实务角度来看，除了上头所说，还包括以下几点：</p>
+</li>
+</ol>
+<blockquote>
+<pre><code>   一、贸易融资发放背景一般是有真实贸易的发生，无贸易背景，谈不上贸易融资;流贷发放背景就多样化了多，可以是没钱支付货款、年底支付薪酬、中央台天价广告费不够等等，可以没有贸易进行。</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>   二、流动资金贷款发放的就是实实在在的钱，直接到了账户，期限6个月以上很普遍;贸易融资除了贷款，还应该包括并不是直接的钱，比如信用证、汇票等所谓的表外业务，期限6个月以上不太多。</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>   三、贸易融资发放对象主要是进出口企业;流贷发放对象则包括进出口企业，更包括非进出口企业，如小五金机械配件制造厂，菜市场门口卖手机的个体户、肉联公司等等，银行实务角度，范围更广。</code></pre>
+</blockquote>
+<blockquote>
+<pre><code>   四、流贷以人民币发放为主，外币较少;贸易融资人民币外币参半，有些贸易融资产品还规定了外币贷款是不能结汇的，而流贷的外币贷款是可以结汇的。</code></pre>
+</blockquote>
+<p>　　贸易融资其实就是一种贷款的变形方式之一，那么通过贸易融资的方式实现企业的资金周转或者投资等等，希望上面的介绍可以帮助大家。</p>
+]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>贷款</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>贷款业务需求分析</title>
+    <url>/2021/03/11/%E8%B4%B7%E6%AC%BE%E4%B8%9A%E5%8A%A1%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="什么是资产业务？"><a href="#什么是资产业务？" class="headerlink" title="什么是资产业务？"></a><font color="#798ba9">什么是资产业务？</font></h2><a id="more"></a>
+
+<p>资产业务指银行将自己<strong>通过负债业务所聚集的货币资金加以运用</strong>的业务；<br>是银行业务取得效益的途径，是创造利润的渠道；<br>而贷款业务，是银行主营资产业务的主要业务，也是监管统计重点关注的业务；  </p>
+<h2 id="贷款业务有哪些"><a href="#贷款业务有哪些" class="headerlink" title="贷款业务有哪些"></a><font color="#798ba9">贷款业务有哪些</font></h2><p>贷款的主要业务；<br>按一般统计口径，贷款可分为对公贷款和个人贷款；  </p>
+<p>1.对公贷款：单位经营贷款、固定贷款、并购贷款、项目贷款、福费廷、贸易融资、垫款、票据贴现等<br>2.个人贷款：个人经营性贷、个人消费贷；<br>其中个人消费贷按用途又分住房、汽车、助学等  </p>
+<h2 id="涉及哪些源系统"><a href="#涉及哪些源系统" class="headerlink" title="涉及哪些源系统"></a><font color="#798ba9">涉及哪些源系统</font></h2><p>核心系统、<strong>贷款系统</strong>、票据系统、直销银行、国结系统、押品系统、第三方平台  </p>
+<p><strong>核心系统</strong>：可以获取相关余额信息；<br>走账通过核心去放贷回收以及相关利息计算等等；<br>贷款的科目相关信息；<br>贷款系统：信贷系统<br>票据系统：票据贴现<br>直销银行：线上贷款，交易系统<br>国结系统：贸易融资（信贷找不到就在这里）<br>押品系统：结合进行数据分析<br>第三方平台：网商贷：微信，花呗，京东等等等（<strong>一般以文献信息推送 数仓</strong>）  </p>
+<h2 id="怎么去做需求分析"><a href="#怎么去做需求分析" class="headerlink" title="怎么去做需求分析"></a><font color="#798ba9">怎么去做需求分析</font></h2><p>贷款统计相关表：  </p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/%E8%B4%B7%E6%AC%BE%E7%BB%9F%E8%AE%A1%E7%9B%B8%E5%85%B3%E8%A1%A8.png" alt="这是图片" title="贷款统计相关表"></p>
+<p>贷款申请：累积申请户数；一般从授信表中接统计和服务数<br>主要关注：申请时间和申请余额<br>授信协议：授信额度；客户（产品）授信，授信的维度不一样<br>贷款合同：合同金的统计 放款金额 终止时间 一般用途是什么<br>投向哪个行业 还款方式是什么 精准利率 执行利率 是不是绿色信贷  </p>
+<p>统计比较多的 就是贷款借据 <strong>统计相关信息一般是从贷款合同表中取到<br>还款计划 数据量一般比较大 银行一般没有专门建表</strong>  </p>
+<h2 id="重点关注信息有哪些"><a href="#重点关注信息有哪些" class="headerlink" title="重点关注信息有哪些"></a><font color="#798ba9">重点关注信息有哪些</font></h2><p>贷款维度的统计；  </p>
+<p>对贷款明细的划分；  </p>
+<p>核对方式：总分核对；内部帐；</p>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>金融</tag>
+        <tag>贷款</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Oracle笔记</title>
+    <url>/2021/03/11/Oracle%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip"><a href="#未经作者授权禁止转载-作者：Chaierss-https-aishanshan-vip" class="headerlink" title="未经作者授权禁止转载 作者：Chaierss https://aishanshan.vip"></a>未经作者授权禁止转载 作者：Chaierss <a href="https://aishanshan.vip/">https://aishanshan.vip</a></h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a><font color="#798ba9">前言</font></h2><p>oracle从安装到基础</p>
+<a id="more"></a>
+
+<h2 id="1-oracle安装（Oracle11g）"><a href="#1-oracle安装（Oracle11g）" class="headerlink" title="1.oracle安装（Oracle11g）"></a><font color="#798ba9">1.oracle安装（Oracle11g）</font></h2><div style="cursor: url(/img/mouse.png),default;" onclick="window.open('https://aishanshan.vip/resources')">
+  <font color="orange" size="3">Oracle</font>
+  安装资源分享以网盘的形式下载 做了资源整合 搜索Oracle
+</div>
+
+<p>参考教程：<a href="https://blog.csdn.net/qq_40036754/article/details/83378007">https://blog.csdn.net/qq_40036754/article/details/83378007</a></p>
+<h2 id="2-oracle建库"><a href="#2-oracle建库" class="headerlink" title="2.oracle建库"></a><font color="#798ba9">2.oracle建库</font></h2><p><strong>在oracle中，每个数据库是独立的服务进程。</strong></p>
+<p>Oracle自带建库工具：</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/database.png" alt="这是图片" title="database"> </p>
+<pre><code>1.sys、system  系统提供的账号  </code></pre>
+<p><strong>scott用户解锁，默认密码是tiger</strong></p>
+<pre><code>2.设置字符集  </code></pre>
+<h2 id="3-监听"><a href="#3-监听" class="headerlink" title="3.监听"></a><font color="#798ba9">3.监听</font></h2><p>创建监听</p>
+<p>oracle自带监听工具：</p>
+<p><img src="https://chaierss-pictures-1301320473.cos.ap-chengdu.myqcloud.com/img/oracle%E7%9B%91%E5%90%AC.png" alt="这是图片" title="database"> </p>
+<h2 id="4-数据库连接"><a href="#4-数据库连接" class="headerlink" title="4.数据库连接"></a><font color="#798ba9">4.数据库连接</font></h2><pre><code>1.sqlplus（oracle自带)
+
+2.plsqlDeveloper 14(图形化工具)（俺目前自用 正版需要购买序列号 破解自寻）</code></pre>
+<div style="cursor: url(/img/mouse.png),default;" onclick="window.open('https://aishanshan.vip/resources')">
+  <font color="orange" size="3">Oracle</font>
+  安装资源分享以网盘的形式下载 做了资源整合 搜索Oracle
+</div>
+
+<pre><code>3.plsql</code></pre>
+<p><strong>当登录用户为sys时， 角色必须选择sysdba</strong></p>
+<h2 id="5-创建用户"><a href="#5-创建用户" class="headerlink" title="5.创建用户"></a><font color="#798ba9">5.创建用户</font></h2><p><strong>需要使用sys/system用户登录</strong></p>
+<pre><code>1.创建表空间</code></pre>
+<p>–创建表空间<br>–create tablespace 表空间名 datafile ‘文件路径’ size 4M;</p>
+<p><strong>文件路径：服务器所在的电脑上的地址，不是本地地址</strong></p>
+<pre><code>2.创建用户</code></pre>
+<p>–创建用户， 用户名，密码，指定表空间<br>create user 用户名 identified by 密码 default tablespace 表空间名;</p>
+<pre><code>3.赋权限
+
+  1）使用命令</code></pre>
+<p>–赋权限</p>
+<pre><code>    grant create session to dragon;</code></pre>
+<p>–收回权限</p>
+<pre><code>    revoke create session from dragon;
+
+  2）使用图形化工具处理</code></pre>
+<h2 id="6-数据类型"><a href="#6-数据类型" class="headerlink" title="6.数据类型"></a><font color="#798ba9">6.数据类型</font></h2><pre><code>数字
+  number--没有小数位
+  number(7,2)--小数位两位
+
+字符
+  char--定长，如果长度不够，空格补齐
+    varchar2--变长，数据内容有多少个长度，数据库就给多少个长度，
+    nvarchar2--变长，和varchar2相比，nvarchar2对中文的支持更好。
+
+日期
+    date--含有年月日时分秒</code></pre>
+<h2 id="7-提交"><a href="#7-提交" class="headerlink" title="7.提交"></a><font color="#798ba9">7.提交</font></h2><p><strong>oracle中需要手动提交更新的数据。</strong></p>
+<h2 id="8-数据库复制"><a href="#8-数据库复制" class="headerlink" title="8.数据库复制"></a><font color="#798ba9">8.数据库复制</font></h2><p>参考教程：<a href="https://blog.csdn.net/qq_25775675/article/details/78222393">https://blog.csdn.net/qq_25775675/article/details/78222393</a></p>
+<h2 id="9-查询"><a href="#9-查询" class="headerlink" title="9.查询"></a><font color="#798ba9">9.查询</font></h2><pre><code>需求1:查询年薪
+
+需求2:查询年薪+津贴年终奖</code></pre>
+<p><strong>判断是否为null<br>nvl(param1, param2)<br>判断param1是否为null，如果为null则用param2的值替代</strong></p>
+<pre><code>需求3:查询当前时间</code></pre>
+<p><strong>mysql中now()<br>oralce： sysdate<br>当查询的列和任何表都没有关系的时候，from 后面跟默认表dual</strong></p>
+<pre><code>select sysdate from t_dept;
+
+需求4：查询入职时间在1985年1月1号之后的</code></pre>
+<p><strong>时间比较，比较符两边都是date类型，或者两边都是varchar类型</strong></p>
+<pre><code>1.to_date();</code></pre>
+<p><strong>hh24:  24小时制<br>mi: 分钟</strong></p>
+<pre><code>2.to_char(param1, param2);</code></pre>
+<p><strong>param1:需要转换的值<br>param2:转换规则</strong></p>
+<pre><code>需求5: 将年薪使用千位分隔符表示
+
+12,340----&gt;字符类型
+to_char();
+
+需求6: 查询员工编码和姓名, 效果为: 7789_jones,7789’jones 
+
+字符串连接符  ||  concat()
+
+
+需求7: 查询员工表中的部门,去重
+
+distinct
+
+需求8: 查询姓名中有M的;查询姓名中第二个字母为M的;查询姓名中含有%的
+
+like ‘%M%’    %作为匹配的通配符
+like ‘_M%’    _作为占位符
+like ‘%&amp;%%’  escape ‘&amp;’
+
+需求9：查询员工名称的第二个字母含有’a’或’A’
+
+需求10：查询员工姓名，从第二个字符开始截取，截取3位
+
+substr()
+
+需求11：查询平均工资，采用四舍五入 ，保留4位有效数字
+
+需求12：取余 
+
+mod()
+
+需求13：统计每个部门的总薪资，计算每个部门的平均薪资
+
+需求14：查询每个部门平均工资的等级
+
+需求15：查询部门平均工资大于2000的部门信息
+
+avg()
+having  avg(sal) &gt;  2000
+
+需求16：查找所有员工中工资最高（最低）的员工信息
+
+需求17：统计工资大于2000的员工数量
+
+需求18：查询管理岗位的员工
+
+需求19：查询每个部门中工资最高的员工信息
+
+需求20：查询员工及其经理的名称
+
+需求21：员工表新增字段，状态，1：在职，2：离职，3：停薪留职。
+
+需求22：查询员工信息，状态字段显示对应中文</code></pre>
+<p><strong>decode()<br>decode可用于纵表变横表</strong></p>
+<p><strong>order by</strong><br>排序</p>
+<pre><code>order by deptno
+order by 1,2  ---&gt;1，2指的是查询结果集的第一列和第二列
+默认是升序排序，降序关键字 desc  ，升序：asc</code></pre>
+<p><strong>rownum</strong><br>分页</p>
+<pre><code>使用伪列进行分页。
+rownum---》伪列， 结果集的序列号
+oracle中分页，借助于伪列，但是伪列是动态的。所以需要先将伪列固化成结果集的固定列，然后再分页</code></pre>
+<p><strong>romnum在order by之前进行排序号<br>所以oracle中，分页一般有三层<br>第一层，过滤和排序<br>第二层，rowmun固化<br>第三层，分页</strong></p>
+<h2 id="10-视图"><a href="#10-视图" class="headerlink" title="10.视图"></a><font color="#798ba9">10.视图</font></h2><p>实际上就是临时表，保存的是select语句。每次从视图中查询数据，都是动态的执行视图的select语句。</p>
+<pre><code>1.简化查询语句，比如部门的平均薪资，如果将平均薪资保存为视图，那么查询就只需要从视图中查
+
+2.数据保护。平台之间的数据库交互，只提供需要的数据给外部系统，而不是提供所有的基础数据。比如部门的平均薪资需要共享，那么就只需要共享这个视图就可以了，而不是共享所有的数据。</code></pre>
+<p>语法:<br>create [or replace] view  v_name as (select 语句)</p>
+<pre><code>1.简化select语句的编写;
+
+2.数据保护：</code></pre>
+<p><strong>只提供了需要提供的数据，没有暴露其他数据</strong></p>
+<pre><code>使用sys用户给scott用户赋权限
+使用scott用户查询</code></pre>
+<p>思考：视图是否可以修改？update更新数据的语句？？？</p>
+<p>肯定是不可以的，所有的修改最终都会体现到基础表中，违背了基础表的修改原则。不违背基础表规则的情况下，可以修改</p>
+<p>但是！！！！！一般视图，不做修改！！！！！！！视图是从基础表中提取出来的，修改也是修改基础表。<strong>视图的查询是实时的，基础表数据更新，视图查询也会实时更新。</strong></p>
+<h2 id="11-索引"><a href="#11-索引" class="headerlink" title="11.索引"></a><font color="#798ba9">11.索引</font></h2><p>作用：快速定位，加快查询的速度。<br>类似新华字典的检索<br>比如小说中的目录章节—》快速定位</p>
+<p>怎么看sql语句有没有走索引？</p>
+<pre><code>sqlDeveloper F10
+plSql F5</code></pre>
+<p>select语句走索引的基本条件</p>
+<pre><code>1）列有创建索引
+
+2）有where条件，并且where条件后的列，创建了索引</code></pre>
+<p>索引的创建</p>
+<pre><code>1）主键，唯一键是会自动创建索引
+
+2）单列索引
+
+3）组合索引
+
+4）函数索引</code></pre>
+<p>索引是不是越多越好？</p>
+<pre><code>不是
+
+1.索引是占用内存空间的，是存在的，也占用物理空间。
+
+2.数据库表如果有更新，而且涉及到索引，那么相应的索引也需要做同步更新</code></pre>
+<p>什么样的列适合创建索引？</p>
+<pre><code>值越唯一，越适合创建索引，能快速定位。比如性别这样的列，就不适合，不能做到快速定位</code></pre>
+<p>索引无效的场景：</p>
+<pre><code>1.使用like，并且% _ 打头
+
+2.隐式的类型转换
+
+3.使用 != 判断，不走索引</code></pre>
+<h2 id="12-序列"><a href="#12-序列" class="headerlink" title="12.序列"></a><font color="#798ba9">12.序列</font></h2><p>类似mysql中的自增长序列，但是oracle中的序列是一个独立的对象。并且序列的步长可以随意调整</p>
+<p>语法：</p>
+<pre><code>create sequence 序列名称</code></pre>
+<p>完整语法：</p>
+<pre><code>create sequence SEQ_TEST  
+minvalue 1   --最小值
+maxvalue 999999999999999999999999999   --最大值
+start with 1  --开始值
+increment by 1  --步长
+cache 20;     --缓冲区大小 </code></pre>
+<p><strong>缓冲区：oracle会从序列中提前生成数字放入缓冲区，程序从序列中获取数字时，直接从缓冲区获取。</strong></p>
+<p>序列这个对象有两个属性</p>
+<pre><code>nextval   下一个序列值
+currval    当前序列值（序列创建之后，必须先nextval取值，否则没有当前值）</code></pre>
+<p><strong>序列用于insert语句</strong></p>
+<p><strong>序列本质上和表是独立的，这两者没有关系。但是从业务逻辑上来说！！！！序列和表又是 一 一对应的！！是一对一的关系。</strong></p>
+<h2 id="13-PL-SQL编程"><a href="#13-PL-SQL编程" class="headerlink" title="13.PL/SQL编程"></a><font color="#798ba9">13.PL/SQL编程</font></h2><p>PL是procedure language的缩写，是对sql（结构化查询语句）的一种补充，或者说是扩展，可以加入循环，分支，异常处理等等。</p>
+<pre><code>1）语法结构
+declare
+      --变量定义
+begin 
+      --代码语句块
+      exception
+    --异常处理
+end; </code></pre>
+<p>案例：输出“hello”</p>
+<pre><code>2）变量定义
+语法
+变量名称   变量类型；</code></pre>
+<p>案例：定义一个数值类型的v_no变量</p>
+<pre><code>3）变量的简单类型
+通常变量类型和表中的列的类型一致。number,varchar2,date,char…
+number,varchar2,date…
+也可以定义布尔值
+
+
+4）变量赋值
+
+    （1）使用赋值符号  :=  
+    可以在定义的时候直接赋值，也可以在begin语句块中进行赋值
+
+    （2）使用into进行动态赋值
+    需求：查询出v_no这个员工的姓名赋值给v_ename</code></pre>
+<p><strong>into赋值是和select语句配合</strong></p>
+<p>场景：</p>
+<pre><code>（1）正常的场景，查询结果只有一条数据
+（2）非法场景，查询不止一条数据-------》报错
+（3）非法场景，查询没有数据-------》报错</code></pre>
+<p><strong>使用into关键字赋值，那么结果只能有且只有一条数据</strong></p>
+<pre><code>5）异常处理</code></pre>
+<p>程序中的异常处理</p>
+<pre><code>6）变量的复杂类型</code></pre>
+<p>%type<br>和指定表中指定列的类型一致</p>
+<pre><code>语法：
+变量名   表名.列名%type</code></pre>
+<p>%rowtype<br>指定行对象类型。</p>
+<p>record<br>自定义对象，record类似java中的class关键字</p>
+<pre><code>语法：
+type  类型名称  is  record(
+    变量名   变量类型，
+    变量名   变量类型，
+    变量名   变量类型
+);</code></pre>
+<p>into进行赋值时，有两种方式</p>
+<p>需求：输出指定员工的姓名，薪资，薪资等级，部门名称</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">declare</span><br><span class="line">  v_no emp.empno%type :&#x3D; 7902;</span><br><span class="line">  --定义自定义对象类型</span><br><span class="line">  type EmpInfo is record(</span><br><span class="line">    v_empno     emp.empno%type,</span><br><span class="line">    v_ename     emp.ename%type,</span><br><span class="line">    v_sal       emp.sal%type,</span><br><span class="line">    v_sal_grade salgrade.grade%type,</span><br><span class="line">    v_dname     dept.dname%type);</span><br><span class="line">  --定义变量v_emp,是自定义对象EmpInfo类型</span><br><span class="line">  v_emp EmpInfo;</span><br><span class="line">begin</span><br><span class="line">  select e.empno, e.ename, e.sal, s.grade, d.dname</span><br><span class="line">    into v_emp  --查询结果集必须和EmpInfo中的属性的定义顺序一致</span><br><span class="line">    --into v_emp.v_empno,</span><br><span class="line">    --     v_emp.v_ename,</span><br><span class="line">    --     v_emp.v_sal,</span><br><span class="line">    --     v_emp.v_sal_grade,</span><br><span class="line">    --     v_emp.v_dname</span><br><span class="line">    from emp e</span><br><span class="line">    left join salgrade s</span><br><span class="line">      on e.sal between s.losal and s.hisal</span><br><span class="line">    left join dept d</span><br><span class="line">      on e.deptno &#x3D; d.deptno</span><br><span class="line">   where e.empno &#x3D; v_no;</span><br><span class="line">   </span><br><span class="line">   dbms_output.put_line(v_emp.v_ename || &#39;,&#39; </span><br><span class="line">                        || v_emp.v_sal || &#39;,&#39;</span><br><span class="line">                        || v_emp.v_sal_grade || &#39;,&#39;</span><br><span class="line">                        || v_emp.v_dname || &#39;,&#39;);</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>table<br>等同于数组，集合，可以放多个数据，和record一样，也是一种类型。<br>定义一个table类型（主要是要定义集合（数组）中的元素类型）</p>
+<pre><code>语法：
+type 类型名称  is table of 元素类型  index by binary_integer
+需求：定义一个类型，可以存放姓名集合
+type Enames is table of varchar2(10)  index by binary_integer；</code></pre>
+<p>批量赋值，集合中的元素个数</p>
+<pre><code>7）if分支语句
+语法
+    （1）
+    if    条件     then
+    --分支语句块
+    end if;
+    （2）
+    if    条件     then
+    --分支语句
+    else 
+        --分支语句
+    end if;
+    （3）if    条件     then
+    --分支语句
+    elsif   条件    then
+        --分支语句
+    elsif   条件    then
+        --分支语句
+    else
+        --分支语句
+    end if;</code></pre>
+<p>条件有多个怎么写？也就是多个条件之间的连接符，用啥？</p>
+<pre><code>if   条件1 ? 条件2    then
+end if;</code></pre>
+<p><strong>逻辑运算，使用and或者是or连接</strong></p>
+<pre><code>8）循环</code></pre>
+<p><strong>loop， while ，for</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loop</span><br><span class="line">	--循环体</span><br><span class="line">	--循环体中退出</span><br><span class="line">	exit when 条件；</span><br><span class="line">end loop;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">while  条件   loop </span><br><span class="line">	--循环体</span><br><span class="line">end loop;</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">for  变量  in  1..10 loop</span><br><span class="line">	--循环体</span><br><span class="line">end loop;</span><br></pre></td></tr></table></figure>
+<p>需求：计算1+2+3+..+100的和</p>
+<pre><code>9）循环table类型</code></pre>
+<p>需求，定义一个table类型，存放指定部门的所有员工姓名</p>
+<pre><code>10）游标</code></pre>
+<p><strong>pl/sql编程中的查询结果集可以看做是游标。或者说，查询结果集可以使用游标来接收</strong></p>
+<p>游标定义</p>
+<pre><code>1）游标的定义
+cursor 游标名称 is 
+    select 查询语句
+
+2）定义一个变量，接收游标中的行数据
+
+3）打开游标
+
+4）从游标中取值
+
+5）关闭游标，释放内存</code></pre>
+<p>游标定义、使用的完整代码:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">declare </span><br><span class="line">  --1.定义游标</span><br><span class="line">  cursor c is </span><br><span class="line">         select ename,sal from emp;</span><br><span class="line">  </span><br><span class="line">  --2.定义变量，用于接收游标中的行数据</span><br><span class="line">  --从游标中取值时需要使用</span><br><span class="line">  --变量类型  游标的行对象类型</span><br><span class="line">  v_c c%rowtype;</span><br><span class="line">begin</span><br><span class="line">  -- 3.游标打开，加载数据到内存中</span><br><span class="line">  open c;</span><br><span class="line">  </span><br><span class="line">  -- 4.从游标中取值</span><br><span class="line">  --fetch，指针往下移一位，将指针指向的数据取出，赋值给v_c变量</span><br><span class="line">  fetch c into v_c;</span><br><span class="line">  --v_c是一个行对象类型，取值需要告知对象的具体属性（或者说列名）</span><br><span class="line">  dbms_output.put_line(v_c.ename || &#39;,&#39; || v_c.sal);</span><br><span class="line">  </span><br><span class="line">  --再次从游标中取值</span><br><span class="line">  fetch c into v_c;</span><br><span class="line">  dbms_output.put_line(v_c.ename);</span><br><span class="line">  </span><br><span class="line">  fetch c into v_c;</span><br><span class="line">  dbms_output.put_line(v_c.ename);</span><br><span class="line">  </span><br><span class="line">  -- 5.关闭游标，释放内存</span><br><span class="line">  close c;</span><br><span class="line">  </span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>游标的循环 ,loop, while, for</p>
+<p>判断指针指向没有数据：c%notfound</p>
+<p>指针指向有数据： c%found</p>
+<p>游标循环</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">loop</span><br><span class="line"> </span><br><span class="line">while</span><br><span class="line"> </span><br><span class="line">for</span><br></pre></td></tr></table></figure>
+<p>带参游标</p>
+<pre><code>语法：在游标名称后面直接定义参数
+1）定义
+cursor c(形参名 形参类型, 形参名 形参类型, …) 
+    is
+    select …. where deptno = 形参名
+2）传参</code></pre>
+<p>完整代码：<br>– 带参游标<br>– 输出指定部门的所有员工信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">declare </span><br><span class="line">  --定义带参游标</span><br><span class="line">  cursor c(v_deptno emp.deptno%type) is</span><br><span class="line">   select ename, sal,empno from emp where deptno &#x3D; v_deptno; </span><br><span class="line">  </span><br><span class="line">  v_c c%rowtype;</span><br><span class="line">begin</span><br><span class="line">  --open打开游标时，需要将参数传入游标！！！</span><br><span class="line">  open c(30);</span><br><span class="line">  </span><br><span class="line">  loop</span><br><span class="line">    fetch c into v_c;</span><br><span class="line">    exit when c%notfound;</span><br><span class="line">    </span><br><span class="line">    dbms_output.put_line(v_c.ename || &#39;,&#39; || v_c.empno);</span><br><span class="line">  end loop;</span><br><span class="line">  </span><br><span class="line">  close c;</span><br><span class="line">  </span><br><span class="line">  --带参游标的for循环</span><br><span class="line">  </span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>for循环带参游标</p>
+<p>动态游标<br>游标在打开的时候动态指定select语句</p>
+<pre><code>1)定义游标类型
+
+2）打开游标的时候，需要给定select语句
+
+3）动态游标中的取值，需要直接赋值给变量
+变量定义
+
+4）批量取值</code></pre>
+<p>代码：<br>– 动态游标</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">declare </span><br><span class="line">  -- 定义一个类型，这个类型是游标类型</span><br><span class="line">  type v_cursor is ref cursor;</span><br><span class="line">  </span><br><span class="line">  --定义一个变量，是v_cursor类型</span><br><span class="line">  c  v_cursor;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  --定义一个变量，接收游标中的数据</span><br><span class="line">  --v_c c%rowtype;  不能使用游标的行对象类型,因为c自己都不知道有什么列</span><br><span class="line">  v_ename emp.ename%type;</span><br><span class="line">  v_empno emp.empno%type;</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  --用于批量取值的变量</span><br><span class="line">  type Enames is table of emp.ename%type index by binary_integer;</span><br><span class="line">  v_enames Enames;</span><br><span class="line">  </span><br><span class="line">begin</span><br><span class="line">  -- 打开动态游标，在打开时，给定select语句</span><br><span class="line">  open c for select ename,empno from emp;</span><br><span class="line">  </span><br><span class="line">  --取值</span><br><span class="line">  loop</span><br><span class="line">    --赋值的变量顺序，需要和游标的查询结果集一致</span><br><span class="line">    fetch c into v_ename,v_empno;</span><br><span class="line">    exit when c%notfound;</span><br><span class="line">    dbms_output.put_line(v_ename || &#39;,&#39; || v_empno);</span><br><span class="line">  end loop;</span><br><span class="line">  </span><br><span class="line">  close c;</span><br><span class="line">  </span><br><span class="line">  --批量取值</span><br><span class="line">  dbms_output.put_line(&#39;---------批量--------------&#39;);</span><br><span class="line">  open c for select ename from emp;</span><br><span class="line">  </span><br><span class="line">  loop</span><br><span class="line">  </span><br><span class="line">  dbms_output.put_line(&#39;-------&#39;);</span><br><span class="line">   </span><br><span class="line">  </span><br><span class="line">  --bulk collect 批量取值的关键字</span><br><span class="line">  --limit 5  表示一次取5条数据</span><br><span class="line">   fetch c bulk collect into v_enames  limit 5;   </span><br><span class="line">   </span><br><span class="line">   for v_index in 1..v_enames.count loop</span><br><span class="line">     dbms_output.put_line(v_index ||&#39;,&#39; ||v_enames(v_index));</span><br><span class="line">   end loop;</span><br><span class="line">   </span><br><span class="line">   --批量取值，退出条件的位置和单个取值时不一致</span><br><span class="line">   exit when c%notfound;</span><br><span class="line">   </span><br><span class="line">   end loop;</span><br><span class="line">   </span><br><span class="line">  close c;</span><br><span class="line">  </span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<h2 id="14-存储过程"><a href="#14-存储过程" class="headerlink" title="14.存储过程"></a><font color="#798ba9">14.存储过程</font></h2><p>给语句块一个名字，保存在数据库，可以重复调用执行<br>语法</p>
+<pre><code>create [or replace] procedure p_name
+is
+  --变量定义
+begin
+  --语句块
+end p_name;</code></pre>
+<p>定义一个简单的存储过程</p>
+<p>存储过程调用</p>
+<pre><code>1.在declare中调用
+
+2.命令窗口中调用（sqlPlus）
+
+3.代码程序中调用，三阶段mybatis中详解
+
+4.给oracle的定时任务调用，定时任务中详解</code></pre>
+<p>sql执行的2种方式</p>
+<pre><code>1.数据操纵语句（update,delete,select）可以直接执行
+
+2.数据控制语句（比如create table语句）需要使用命令执行
+当然，操纵（select,update,delete）语句也可以使用命令执行 </code></pre>
+<p>案例<br>–给部门薪资最低的所有的员工加薪100</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create or replace procedure p_update_sal is</span><br><span class="line">  --变量，存放部门编号</span><br><span class="line">  v_dno emp.deptno%type;</span><br><span class="line">  </span><br><span class="line">  v_sql varchar2(100);</span><br><span class="line">begin</span><br><span class="line"></span><br><span class="line">  --查询平均薪资最低的部门编号</span><br><span class="line">  select deptno</span><br><span class="line">    into v_dno</span><br><span class="line">    from v_dept_avg</span><br><span class="line">   where avg_sal &#x3D; (select min(v_dept_avg.avg_sal) from v_dept_avg);</span><br><span class="line">  </span><br><span class="line">  --数据备份</span><br><span class="line">  v_sql :&#x3D; &#39;create table emp_bak&#39;|| to_char(sysdate,&#39;yyyymmddhh24miss&#39;) || &#39; as select * from emp&#39;;</span><br><span class="line">  </span><br><span class="line">  dbms_output.put_line(v_sql);</span><br><span class="line">  --使用命令执行sql</span><br><span class="line">  execute immediate v_sql;</span><br><span class="line">  </span><br><span class="line">  --给这个部门下的员工加薪100  update</span><br><span class="line">  update emp set sal &#x3D; sal+100 where emp.deptno &#x3D; v_dno;</span><br><span class="line">  </span><br><span class="line">  --需要手动提交数据</span><br><span class="line">  commit;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>带参存储过程<br>参数类型，输入、输出。</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create or replace procedure p_name(形参名 in  形参类型，</span><br><span class="line">形参名 out 形参类型。。。。。) </span><br><span class="line">is</span><br><span class="line">--</span><br><span class="line">begin</span><br><span class="line"></span><br><span class="line">end p_name; </span><br></pre></td></tr></table></figure>
+<p>输出的参数可以理解为存储过程的返回值。<br>输入，输出参数均可以有多个</p>
+<p>需求：查找指定员工的姓名，薪资<br>定义一个存储过程，带参数（员工姓名（输入型），姓名、薪资（输出型））</p>
+<p>in/out 如果没有给，则默认为in</p>
+<p><strong>参数如果设计为可以传，也可以不传，那么必须在定义时给默认值<br>参数如果有默认值，那么调用的时候，可以不传</strong></p>
+<h2 id="15-函数"><a href="#15-函数" class="headerlink" title="15.函数"></a><font color="#798ba9">15.函数</font></h2><p>substr()  to_char()   to_date()…..</p>
+<p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create [or replace] function f_name(形参名 形参类型) </span><br><span class="line">return  返回值类型</span><br><span class="line">is</span><br><span class="line">--变量定义</span><br><span class="line">begin</span><br><span class="line">--语句块</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>案例：计算每个员工需要缴纳的个税<br>超过10000， 20%<br>5000-10000， 10%<br>3000-5000， 5%<br>3000以下不用交</p>
+<p><strong>函数、存储过程：</strong></p>
+<pre><code>1）函数必须有返回值，存储过程没有
+
+2）存储过程是有输出参数，并且可以有多个。而函数的返回值，只有一个
+
+3）函数可以和sql语句配合使用，存储过程是语句块，只给程序和定时任务或者别的存储过程调用。</code></pre>
+<h2 id="16-定时任务"><a href="#16-定时任务" class="headerlink" title="16.定时任务"></a><font color="#798ba9">16.定时任务</font></h2><pre><code>1）定义一个无参的存储过程给定时任务触发
+
+2）创建定时任务
+
+3）查看定时任务
+
+4）日志表中的数据</code></pre>
+<h3 id="本文作者记录笔记心得，如有错误欢迎指正"><a href="#本文作者记录笔记心得，如有错误欢迎指正" class="headerlink" title="本文作者记录笔记心得，如有错误欢迎指正"></a>本文作者记录笔记心得，如有错误欢迎指正</h3>]]></content>
+      <tags>
+        <tag>Oracle</tag>
+      </tags>
+  </entry>
+</search>
